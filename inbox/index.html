@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Let Claude read your Gmail (free) | Rogello AI</title>
+<meta name="description" content="Step-by-step: connect Gmail to a free Claude account and ask what needs your attention. Includes prompts to copy and safety notes.">
+<style>
+@font-face{font-family:Inter;font-weight:500;src:url(assets/fonts/inter-latin-500-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:Inter;font-weight:700;src:url(assets/fonts/inter-latin-700-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:Inter;font-weight:800;src:url(assets/fonts/inter-latin-800-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;src:url(assets/fonts/instrument-serif-latin-400-italic.woff2) format('woff2');font-display:swap}
+:root{--bg:#121212;--panel:#1B1A18;--line:#2E2C28;--paper:#F2F0E8;--mute:#9A968D;--acc:#FF4F18;--ok:#1FA855;--warn:#E8B23A}
+:root[data-theme="light"]{--bg:#F2F0E8;--panel:#FFFFFF;--line:#DAD6CB;--paper:#161513;--mute:#6A665E;--acc:#E8420C}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--paper);font:500 17px/1.6 Inter,system-ui,sans-serif;background-image:linear-gradient(rgba(128,128,128,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,.06) 1px,transparent 1px);background-size:24px 24px}
+.wrap{max-width:720px;margin:0 auto;padding:28px 16px 80px}
+.top{display:flex;justify-content:space-between;align-items:center;font:700 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;color:var(--mute);margin-bottom:34px}
+.top b{color:var(--acc)}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--ok);color:#fff;font:800 13px/1 Inter,sans-serif;letter-spacing:.06em;padding:8px 14px;border-radius:999px}
+h1{font:800 clamp(34px,8vw,52px)/1.05 Inter,sans-serif;letter-spacing:-.03em;margin:18px 0 10px}
+h1 em{font:italic 400 1.2em/1 'Instrument Serif',Georgia,serif;color:var(--acc);letter-spacing:0}
+.lead{color:var(--mute);font-size:18px;max-width:34em}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px;margin-top:26px}
+.card h2{font:700 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;color:var(--acc);margin-bottom:12px;text-transform:uppercase}
+.card ul{padding-left:1.1em}.card li{margin:6px 0}
+.steps{margin-top:34px;display:grid;gap:34px}
+.step{display:grid;gap:12px}
+.step header{display:flex;gap:14px;align-items:flex-start}
+.num{flex:none;width:38px;height:38px;border-radius:50%;background:var(--acc);color:#fff;font:800 17px/38px Inter,sans-serif;text-align:center}
+.step h3{font:800 22px/1.25 Inter,sans-serif;letter-spacing:-.01em}
+.step p{color:var(--mute)}
+figure{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#0c0c0c}
+figure a{display:block}figure img{display:block;width:100%;height:auto}
+figcaption{padding:10px 14px;font-size:14px;color:var(--mute);background:var(--panel)}
+.prompt{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 12px 12px 16px;margin-top:10px}
+.prompt code{flex:1;font:600 16px/1.4 Inter,sans-serif;color:var(--paper)}
+.prompt button{flex:none;background:var(--acc);color:#fff;border:0;border-radius:999px;font:800 13px/1 Inter,sans-serif;padding:10px 14px;cursor:pointer;min-height:40px}
+.tag{display:inline-block;font:700 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;padding:5px 8px;border-radius:6px;margin-right:8px;vertical-align:middle}
+.tag.t{background:rgba(31,168,85,.18);color:var(--ok)}.tag.u{background:rgba(232,178,58,.18);color:var(--warn)}
+.note{border-left:4px solid var(--warn);background:rgba(232,178,58,.08);border-radius:0 12px 12px 0;padding:12px 14px;margin-top:6px;font-size:16px}
+.note.ok{border-color:var(--ok);background:rgba(31,168,85,.08)}
+footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--mute);font-size:14px}
+footer strong{color:var(--paper)}
+a{color:var(--acc)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>// ROGELLO AI GUIDE</span><span><b>●</b> TESTED OCT 29, 2026</span></div>
+
+  <span class="badge">FREE PLAN</span>
+  <h1>Let Claude read your Gmail<br><em>and tell you what matters.</em></h1>
+  <p class="lead">Connect Gmail to Claude in a few clicks, then ask in plain English. No code, and it works on the free Claude plan.</p>
+
+  <div class="card">
+    <h2>What you need</h2>
+    <ul>
+      <li>A free Claude account (claude.ai)</li>
+      <li>A Gmail account</li>
+      <li>About five minutes</li>
+    </ul>
+  </div>
+
+  <div class="steps">
+
+    <section class="step">
+      <header><span class="num">1</span><h3>Open Claude and click the + button</h3></header>
+      <p>It sits at the left of the message box. Pick <strong>Add connector</strong>, then <strong>Browse connectors</strong>.</p>
+      <figure><a href="assets/s03.jpg" target="_blank" rel="noopener"><img src="assets/s03.jpg" alt="Claude's plus menu with Add connector open and Browse connectors next to it" loading="lazy" width="1600" height="832"></a><figcaption>The + menu: Add connector &rarr; Browse connectors. <span style="opacity:.7">Tap to enlarge.</span></figcaption></figure>
+    </section>
+
+    <section class="step">
+      <header><span class="num">2</span><h3>Find Gmail and tap the +</h3></header>
+      <p>Gmail is in the top connectors list, described as "Draft replies, summarize threads, &amp; search your inbox."</p>
+      <figure><a href="assets/s05.jpg" target="_blank" rel="noopener"><img src="assets/s05.jpg" alt="Claude's connectors list with Gmail in the top row" loading="lazy" width="1600" height="832"></a><figcaption>Connectors list. Gmail is top right. <span style="opacity:.7">Tap to enlarge.</span></figcaption></figure>
+    </section>
+
+    <section class="step">
+      <header><span class="num">3</span><h3>Sign in with Google and press Continue</h3></header>
+      <p>Google asks you to confirm which account to use. Pick the Gmail you want Claude to read.</p>
+      <figure><a href="assets/s06.jpg" target="_blank" rel="noopener"><img src="assets/s06.jpg" alt="Google sign-in screen for Claude for Gmail, email address blurred" loading="lazy" width="1600" height="832"></a><figcaption>Google's sign-in screen (our email is blurred). <span style="opacity:.7">Tap to enlarge.</span></figcaption></figure>
+    </section>
+
+    <section class="step">
+      <header><span class="num">4</span><h3>Check what Claude can access</h3></header>
+      <p>Google lists three permissions: view your email and settings, manage drafts and send emails, and read, compose and send emails. Read them before you press Continue.</p>
+      <figure><a href="assets/s07.jpg" target="_blank" rel="noopener"><img src="assets/s07.jpg" alt="Google permissions screen with three Gmail permissions ticked" loading="lazy" width="1600" height="832"></a><figcaption>All three boxes were ticked by default when we tested. <span style="opacity:.7">Tap to enlarge.</span></figcaption></figure>
+      <p class="note"><strong>Heads up:</strong> these permissions include sending email. Claude's help page says it asks for your approval before each send by default, but read every draft before you let it go. You can remove access any time from your Google Account.</p>
+    </section>
+
+    <section class="step">
+      <header><span class="num">5</span><h3>Look for "Connected to Gmail"</h3></header>
+      <p>A green tick appears on the Gmail card and a message pops up at the bottom right.</p>
+      <figure><a href="assets/s08.jpg" target="_blank" rel="noopener"><img src="assets/s08.jpg" alt="Connectors list with a green tick on Gmail and a Connected to Gmail message" loading="lazy" width="1600" height="832"></a><figcaption>Connected. This was on a free account. <span style="opacity:.7">Tap to enlarge.</span></figcaption></figure>
+    </section>
+
+    <section class="step">
+      <header><span class="num">6</span><h3>Ask what needs your attention</h3></header>
+      <p>Close the settings, type the question below into a chat, and press enter. Claude shows "Loading tools" for a few seconds while it opens your inbox.</p>
+      <div class="prompt"><code id="p1">What emails need my attention today?</code><button type="button" data-copy="p1">Copy</button></div>
+      <figure><a href="assets/s09.jpg" target="_blank" rel="noopener"><img src="assets/s09.jpg" alt="The prompt typed into Claude's message box" loading="lazy" width="1600" height="832"></a><figcaption>The exact prompt we used. <span style="opacity:.7">Tap to enlarge.</span></figcaption></figure>
+      <figure><a href="assets/s11.jpg" target="_blank" rel="noopener"><img src="assets/s11.jpg" alt="Claude working with the status Get email message" loading="lazy" width="1600" height="832"></a><figcaption>While it works you'll see "Get email message". <span style="opacity:.7">Tap to enlarge.</span></figcaption></figure>
+    </section>
+
+    <section class="step">
+      <header><span class="num">7</span><h3>Read the answer, then dig deeper</h3></header>
+      <p>Claude lists what it found and what looks routine. Our reply is blurred because it showed real emails.</p>
+      <figure><a href="assets/s12.jpg" target="_blank" rel="noopener"><img src="assets/s12.jpg" alt="Claude's answer after using the Gmail integration, contents blurred" loading="lazy" width="1600" height="832"></a><figcaption>"Used Gmail integration" confirms it read the inbox. Details blurred. <span style="opacity:.7">Tap to enlarge.</span></figcaption></figure>
+      <p class="note ok"><strong>Good to know:</strong> in our test Claude only looked at unread inbox mail from the last two days, and it told us so. A quiet inbox gives a quiet answer. Ask it to look further back.</p>
+      <p><span class="tag t">TESTED</span>Claude suggested these itself after our first question:</p>
+      <div class="prompt"><code id="p2">Look further back, the last two weeks.</code><button type="button" data-copy="p2">Copy</button></div>
+      <div class="prompt"><code id="p3">Check my starred and important emails.</code><button type="button" data-copy="p3">Copy</button></div>
+      <p style="margin-top:14px"><span class="tag u">NOT TESTED YET</span>Listed in Claude's help page as things it can do:</p>
+      <div class="prompt"><code id="p4">Find the last email from [name] and tell me what it says.</code><button type="button" data-copy="p4">Copy</button></div>
+      <div class="prompt"><code id="p5">Draft a reply to [name] saying I'll get back to them Friday.</code><button type="button" data-copy="p5">Copy</button></div>
+    </section>
+
+  </div>
+
+  <div class="card">
+    <h2>Stay safe</h2>
+    <ul>
+      <li>Claude reads the emails it needs to answer you, so they are sent to Claude. Don't connect an inbox you aren't comfortable sharing.</li>
+      <li>Read every draft before anything is sent.</li>
+      <li>Be careful with emails from strangers. An email can contain text written to trick an AI.</li>
+      <li>You can disconnect Gmail in Claude's connector settings, or remove access from your Google Account.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <p><strong>Rogello AI.</strong> Written Oct 29, 2026 from a hands-on test on a free Claude account. Claude and Google change their screens often, so yours may look a little different. Not affiliated with Anthropic or Google.</p>
+  </footer>
+</div>
+<script>
+document.addEventListener('click',function(e){
+  var b=e.target.closest('button[data-copy]');if(!b)return;
+  var el=document.getElementById(b.getAttribute('data-copy'));if(!el)return;
+  var txt=el.textContent;
+  function done(){var o=b.textContent;b.textContent='Copied';setTimeout(function(){b.textContent=o},1400)}
+  try{navigator.clipboard.writeText(txt).then(done,function(){fallback()})}catch(err){fallback()}
+  function fallback(){try{var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);document.execCommand('copy');done()}catch(x){}}
+});
+</script>
+</body>
+</html>
